@@ -12,6 +12,7 @@ function App() {
     const showHistory = history.slice(0, steps + 1)
     const current = showHistory[showHistory.length - 1]
     const value2 = current.value.slice()
+
        if(CheckWinner(value2) || value2[i]){
       return
     }
@@ -19,7 +20,7 @@ function App() {
 
  
 
-    setHistory(showHistory.concat([{value:value2}]))
+    setHistory(showHistory.concat([{value:value2,colRow:i}]))
     setSteps(showHistory.length)
     setState(!state)
 
@@ -40,7 +41,10 @@ function App() {
    }
 
    const moves = history.map((step,move)=>{
-     const number = move? "Return to #" + move:"Restart"
+     const colRow =step.colRow
+     const col = 1 + colRow % 3
+     const row = 1 + Math.floor(colRow/3)
+     const number = move? "Return to #" + move + ' (' + col + ',' + row+')':"Restart"
      return(
        <li key={move}>
          <button onClick={()=>handleJump(move)}>{number}</button>
@@ -59,7 +63,6 @@ function App() {
   <div className='game-info'>
     <ol>{moves}</ol>
   </div>
-  
   
   
   </div>
